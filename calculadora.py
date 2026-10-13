@@ -16,3 +16,4 @@ def dividir(a, b):
             "El divisor no puede ser cero. Proporciona un numero distinto de 0."
         )
     return a / b
+# Función de potencia (TODO)
