@@ -17,3 +17,6 @@ def dividir(a, b):
         )
     return a / b
 # Función de potencia (TODO)
+
+def funcion_con_error(  x,y ):
+    return x+y
