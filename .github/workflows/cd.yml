@@ -15,13 +15,6 @@ jobs:
     environment: staging
 
     steps:
-      -  name: Verificar configuración del ambiente
-         run: |
-          echo "Ambiente: ${{ vars.APP_ENV }}"
-          echo "DB configurada: ${{ secrets.DB_URL != '' && 'SI' || 'NO' }}"
-          # NUNCA hacer: echo ${{ secrets.DB_URL }}
-          # Los secrets nunca se imprimen en logs
-
       - uses: actions/checkout@v4
 
       - name: Simular deploy en Staging
