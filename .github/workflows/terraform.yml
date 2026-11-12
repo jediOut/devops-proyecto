@@ -3,10 +3,13 @@ name: Terraform IaC
 on:
   push:
     branches: [main]
-    paths: ['terraform/**']
+    paths: ["terraform/**"]
+
   pull_request:
     branches: [main]
-    paths: ['terraform/**']
+    paths: ["terraform/**"]
+
+  workflow_dispatch:
 
 permissions:
   contents: read
