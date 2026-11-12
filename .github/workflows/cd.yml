@@ -21,6 +21,18 @@ jobs:
         uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+      - name: Seleccionar suscripción de Azure
+        run: |
+          az account set --subscription "ee19c7e8-4962-4153-a986-7c3ed4417b4e"
+          az account show --query "{subscription:name,id:id,tenant:tenantId}" -o table
+
+      - name: Verificar Resource Group
+        run: |
+          az group show \
+            --name rg-devops-academia \
+            --query "{name:name,location:location}" \
+            --output table
 
       - name: Conectar a AKS
         run: |
