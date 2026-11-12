@@ -14,6 +14,7 @@ terraform {
     storage_account_name = "tfstatedevops3097"
     container_name       = "tfstate"
     key                  = "devops-academia.tfstate"
+    use_azuread_auth     = true
   }
 }
 
