@@ -1,2 +1,2 @@
 execute pipeline
-2do execute pipeline
+execute pipeline prueba
