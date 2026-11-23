@@ -3,26 +3,11 @@ replicaCount: 2
 image:
   repository: nginx
   tag: "1.25-alpine"
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
+  # Esta configuración garantiza que siempre se use nginx:1.25-alpine
+  # Cambiar solo si deseas actualizar a otra versión de nginx
 
 imagePullSecrets: []
-
-nameOverride: ""
-fullnameOverride: ""
-
-serviceAccount:
-  create: true
-  automount: true
-  annotations: {}
-  name: ""
-
-podAnnotations: {}
-
-podLabels: {}
-
-podSecurityContext: {}
-
-securityContext: {}
 
 service:
   type: ClusterIP
@@ -39,6 +24,60 @@ ingress:
           pathType: Prefix
   tls: []
 
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+  automount: true
+
+httpRoute:
+  enabled: false
+  annotations: {}
+  parentRefs: []
+  hostnames: []
+  rules: []
+
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+podAnnotations: {}
+
+podLabels:
+  app: devops-app
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 101
+  runAsGroup: 101
+  fsGroup: 101
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 101
+  capabilities:
+    drop:
+      - ALL
+
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 30
+  periodSeconds: 10
+
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 5
+
 resources:
   requests:
     memory: "32Mi"
@@ -47,22 +86,25 @@ resources:
     memory: "64Mi"
     cpu: "100m"
 
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 5
-  targetCPUUtilizationPercentage: 80
+volumeMounts:
+  - name: nginx-cache
+    mountPath: /var/cache/nginx
+  - name: nginx-run
+    mountPath: /var/run
+  - name: nginx-tmp
+    mountPath: /tmp
 
-volumes: []
-volumeMounts: []
+volumes:
+  - name: nginx-cache
+    emptyDir: {}
+  - name: nginx-run
+    emptyDir: {}
+  - name: nginx-tmp
+    emptyDir: {}
 
 nodeSelector: {}
 
-tolerations: []
-
 affinity: {}
-httpRoute:
-  enabled: false
-  parentRefs: []
-  hostnames: []
-  rules: []
+
+tolerations: []
+ 
