@@ -14,8 +14,12 @@ resource "azurerm_virtual_network" "main" {
   address_space       = ["10.0.0.0/16"]
 }
 
+resource "random_id" "storage_suffix" {
+  byte_length = 4
+}
+
 resource "azurerm_storage_account" "main" {
-  name                     = "st${var.environment}devops${substr(md5(var.environment), 0, 5)}"
+  name                     = "st${var.environment}devops${random_id.storage_suffix.hex}"
   resource_group_name      = azurerm_resource_group.main.name
   location                 = azurerm_resource_group.main.location
   account_tier             = "Standard"
