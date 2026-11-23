@@ -22,3 +22,5 @@ terraform.tfstate
 terraform.tfstate.backup
 *.tfvars.local
 .terraform.lock.hcl
+# Trivy
+trivy-report.json
